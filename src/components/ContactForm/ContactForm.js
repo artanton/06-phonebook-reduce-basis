@@ -7,8 +7,8 @@ import {
   FieldStyled,
   FormStyled,
 } from './ContactFormStyled';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from '../../redux/store';
+import { useDispatch} from 'react-redux';
+import { addContact } from '../../redux/contactSlice';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
@@ -19,21 +19,14 @@ const contactSchema = Yup.object().shape({
     .required('Required'),
   number: Yup.string()
     .matches(/^\d{12}$/, 'Please enter 12 digits')
-    // number: Yup.number()
-    // .test(
-    //    value => value ? value.toString().length === 12 && !isNaN(value) : false,
-    //    'Please enter 12 digits'
-    // )
+
     .required('Required'),
 });
 
 export const ContactForm = () => {
   const dispatchContact = useDispatch();
 
-    
-
-
-  const onAdd = newContact => dispatchContact(addContact(newContact))
+  const onAdd = newContact => dispatchContact(addContact(newContact));
 
   return (
     <Formik

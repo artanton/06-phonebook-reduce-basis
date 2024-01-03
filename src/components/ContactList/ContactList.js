@@ -5,9 +5,9 @@ import { PhoneNoList } from './ContactListStyled';
 
 
 export const ContactList = () => {
-  const storeContacts = useSelector (state=>state.contacts);
-  const searchedContact = useSelector (state=>state.filter)
-
+  const storeContacts = useSelector (state=>state.contacts.contacts);
+  const searchedContact = useSelector (state=>state.filter.filter)
+console.log(storeContacts);
   const actualContacts = storeContacts.filter(contact => {
     const fitContact = contact.name
       .toLowerCase()
