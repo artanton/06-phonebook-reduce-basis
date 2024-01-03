@@ -25,7 +25,7 @@ const contactSchema = Yup.object().shape({
     .required('Required'),
 });
 
-export const ContactForm = ({ onAdd }) => {
+export const ContactForm = ({onAdd}) => {
   return (
     <Formik
       initialValues={{

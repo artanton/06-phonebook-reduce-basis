@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+
 import { ContactForm } from './ContactForm/ContactForm';
 import { GlobalStyle } from './GlobalStyle';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
-import { nanoid } from 'nanoid';
-import Notiflix from 'notiflix';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact, filtering } from '../redux/store';
 
 const storageKey= 'contacts';
 
@@ -17,52 +17,21 @@ const getStoredContacts = ()=>{
 
 export const App  =()=> {
   
-    const [contacts, setContacts]= useState (getStoredContacts);
-    const [filter, setFilter]= useState ("");
-    
-    useEffect(()=>{window.localStorage.setItem(
-      storageKey,
-      JSON.stringify(contacts)
-    );} , [contacts] )
-    
-    const addContact = newContact => {
-      const contactExist = contacts.some(
-        contact => contact.name === newContact.name
-      );
   
-      if (contactExist) {
-        Notiflix.Notify.failure(` ${newContact.name} is already in phonebook `);
-        return;
-      }
+    
+    const dispatchContact = useDispatch();
+
+    
+
+    const actualContacts = useSelector (state=>state.contacts);
+    const addingContact = newContact => dispatchContact(addContact(newContact))
+
   
-      const addingContact = {
-        ...newContact,
-        id: nanoid(),
-      };
-  
-      setContacts(prevContacts => [...prevContacts, addingContact],
-      );
-    };
-    
-    const contactDelete = pickedId => {
-      setContacts(     
-        contacts.filter(contact => contact.id !== pickedId),
-        
-      );
-    };
-    
-    const updateFilter = seekdName => {
-     setFilter(
-         seekdName
-      );
-    };
-    
-    const pickedContact = contacts.filter(contact => {
-      const fitContact = contact.name
-        .toLowerCase()
-        .includes(filter.toLowerCase());
-      return fitContact;
-    });
+   
+   
+
+   
+   
 
   
 
@@ -79,18 +48,15 @@ export const App  =()=> {
       >
         <div>
           <h1>Phonebook</h1>
-          <ContactForm onAdd={addContact} />
+          <ContactForm onAdd={addingContact} />
 
           <h2>Contacts</h2>
 
-          {contacts.length > 0 && (
+          {actualContacts.length > 0 && (
             <div>
               <p>Find contacts by name</p>
-              <Filter name={filter} onUpdateFilter={updateFilter} />
-              <ContactList
-                contacts={pickedContact}
-                onDelete={contactDelete}
-              />
+              <Filter  />
+              <ContactList/>
             </div>
           )}
         </div>
