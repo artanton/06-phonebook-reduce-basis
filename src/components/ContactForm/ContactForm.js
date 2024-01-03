@@ -7,6 +7,8 @@ import {
   FieldStyled,
   FormStyled,
 } from './ContactFormStyled';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from '../../redux/store';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
@@ -25,7 +27,14 @@ const contactSchema = Yup.object().shape({
     .required('Required'),
 });
 
-export const ContactForm = ({onAdd}) => {
+export const ContactForm = () => {
+  const dispatchContact = useDispatch();
+
+    
+
+
+  const onAdd = newContact => dispatchContact(addContact(newContact))
+
   return (
     <Formik
       initialValues={{

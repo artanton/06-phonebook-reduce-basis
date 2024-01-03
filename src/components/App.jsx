@@ -3,8 +3,8 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { GlobalStyle } from './GlobalStyle';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact, filtering } from '../redux/store';
+import {  useSelector } from 'react-redux';
+
 
 const storageKey= 'contacts';
 
@@ -19,14 +19,11 @@ export const App  =()=> {
   
   
     
-    const dispatchContact = useDispatch();
+    
 
     
 
     const actualContacts = useSelector (state=>state.contacts);
-    const addingContact = newContact => dispatchContact(addContact(newContact))
-
-  
    
    
 
@@ -48,7 +45,7 @@ export const App  =()=> {
       >
         <div>
           <h1>Phonebook</h1>
-          <ContactForm onAdd={addingContact} />
+          <ContactForm />
 
           <h2>Contacts</h2>
 
